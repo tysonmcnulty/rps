@@ -2,7 +2,7 @@
   "name": "rps",
   "version": "0.0.0",
   "files": ["src/"],
-  "main": "src/rps.js",
+  "main": "src/rockPaperScissors.js",
   "devDependencies": {
     "jasmine": "latest"
   }

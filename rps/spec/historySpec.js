@@ -1,5 +1,4 @@
-const { RockPaperScissors } = require("../src/rockPaperScissors")
-const Round = require("../src/Round")
+const { RockPaperScissors, Round } = require("../src/rockPaperScissors")
 const FakeRoundRepo = require("./FakeRoundRepo")
 
 describe("history", function () {

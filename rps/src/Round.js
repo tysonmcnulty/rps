@@ -4,4 +4,4 @@ function Round(player1Throw, player2Throw, outcome){
     this.outcome = outcome
 }
 
-module.exports = Round
+module.exports = { Round }

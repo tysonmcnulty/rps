@@ -1,4 +1,4 @@
-const Round = require("./Round")
+const { Round } = require("./Round")
 
 function RockPaperScissors(){
     this.playRound = function(player1Throw, player2Throw, ui, roundRepo){
@@ -64,5 +64,6 @@ function PlayUseCase(player1Throw, player2Throw, ui, roundRepo){
 }
 
 module.exports = {
-    RockPaperScissors
+    RockPaperScissors,
+    Round
 }

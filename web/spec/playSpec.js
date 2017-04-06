@@ -1,48 +1,9 @@
 const React = require("react")
 const ReactDOM = require("react-dom")
 
-const RpsUI = React.createClass({
-    getInitialState(){
-        return {
-            message: null
-        }
-    },
+const { Round } = require("rps")
 
-    submitForm(){
-        this.props.rps.playRound(this.state.p1Throw, this.state.p2Throw, this)
-    },
-
-    invalid(){
-        this.setState({message: "INVALID"})
-    },
-
-    tie(){
-        this.setState({message: "TIE"})
-    },
-
-    winner(player){
-        this.setState({message: `${player.toUpperCase()} WINS`})
-    },
-
-    p1ThrowChangeHandler(e){
-        this.setState({p1Throw: e.target.value})
-    },
-
-    p2ThrowChangeHandler(e){
-        this.setState({p2Throw: e.target.value})
-    },
-
-    render(){
-        return (
-            <div>
-                {this.state.message}
-                <input type="text" id="p1Throw" onChange={this.p1ThrowChangeHandler}/>
-                <input type="text" id="p2Throw" onChange={this.p2ThrowChangeHandler}/>
-                <button id="playButton" onClick={this.submitForm}>Play</button>
-            </div>
-        )
-    }
-})
+const RpsUI = require("../RpsUI")
 
 describe("playRound", function () {
     describe("invalid input", function () {
@@ -110,11 +71,16 @@ describe("playRound", function () {
     })
 
     it("sends user input to the playRound use case", function () {
-        const playSpy = jasmine.createSpy("playRound")
+        const playRoundSpy = jasmine.createSpy("playRound")
+        const historySpy = jasmine.createSpy("history")
 
         renderApp({
-            playRound: playSpy
+            playRound: playRoundSpy,
+            history: historySpy
         })
+
+        expect(historySpy).toHaveBeenCalled()
+        historySpy.calls.reset()
 
         let p1Throw = "p1 throw value"
         let p2Throw = "p2 throw value"
@@ -124,8 +90,43 @@ describe("playRound", function () {
 
         submitPlayForm()
 
-        expect(playSpy).toHaveBeenCalledWith(p1Throw,  p2Throw, jasmine.any(Object))
+        expect(playRoundSpy).toHaveBeenCalledWith(p1Throw,  p2Throw, jasmine.any(Object), jasmine.any(Object))
+        expect(historySpy).toHaveBeenCalled()
+
     })
+
+    describe("when there is no history", function () {
+        beforeEach(function () {
+            renderApp({
+                history: function(ui){
+                    ui.noHistory()
+                }
+            })
+        });
+
+        it("tells the user there is no history", function () {
+            expect(page()).toContain("NO HISTORY")
+        });
+
+    });
+
+    describe("when there is history", function () {
+        beforeEach(function () {
+            renderApp({
+                history: function(ui){
+                    ui.history([
+                        new Round("foo", "bar", "baz")
+                    ])
+                }
+            })
+        })
+
+        it("displays the history", function () {
+            expect(page()).toContain("foo")
+            expect(page()).toContain("bar")
+            expect(page()).toContain("baz")
+        })
+    });
 
     let domFixture
 
@@ -151,8 +152,12 @@ describe("playRound", function () {
     })
 
     function renderApp(rps) {
+        rps.history = rps.history || function() {}
+
+        let repoSpy = jasmine.createSpyObj("repo", ["save", "getAll", "isEmpty"]);
+
         ReactDOM.render(
-            <RpsUI rps={rps}/>,
+            <RpsUI rps={rps} roundRepo={repoSpy}/>,
             domFixture
         )
     }
