@@ -109,6 +109,12 @@ describe("play", function () {
         })
     })
 
+    function input(inputSelector, inputValue) {
+        let domInput = document.querySelector(inputSelector);
+        domInput.value = inputValue
+        domInput.dispatchEvent(new Event("input", {bubbles: true, cancelable: false}))
+    }
+
     it("sends user input to the play use case", function () {
         const playSpy = jasmine.createSpy("play")
 
@@ -116,17 +122,15 @@ describe("play", function () {
             play: playSpy
         })
 
-        let p1ThrowInput = document.querySelector("#p1Throw");
-        p1ThrowInput.value = "p1 throw value"
-        let p2ThrowInput = document.querySelector("#p2Throw");
-        p2ThrowInput.value = "p2 throw value"
+        let p1Throw = "p1 throw value"
+        let p2Throw = "p2 throw value"
 
-        p1ThrowInput.dispatchEvent(new Event("input", {bubbles: true, cancelable: false}))
-        p2ThrowInput.dispatchEvent(new Event("input", {bubbles: true, cancelable: false}))
+        input("#p1Throw", p1Throw)
+        input("#p2Throw", p2Throw)
 
         submitPlayForm()
 
-        expect(playSpy).toHaveBeenCalledWith("p1 throw value",  "p2 throw value", jasmine.any(Object))
+        expect(playSpy).toHaveBeenCalledWith(p1Throw,  p2Throw, jasmine.any(Object))
     })
 
 
