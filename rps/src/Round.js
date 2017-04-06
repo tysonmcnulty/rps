@@ -1,7 +1,7 @@
-function Round(p1, p2, result){
-    this.p1Throw = p1
-    this.p2Throw = p2
-    this.result = result
+function Round(player1Throw, player2Throw, outcome){
+    this.p1Throw = player1Throw
+    this.p2Throw = player2Throw
+    this.outcome = outcome
 }
 
 module.exports = Round

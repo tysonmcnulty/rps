@@ -1,7 +1,7 @@
 const React = require("react")
 const ReactDOM = require("react-dom")
 
-const RpsApp = React.createClass({
+const RpsUI = React.createClass({
     getInitialState(){
         return {
             message: null
@@ -9,7 +9,7 @@ const RpsApp = React.createClass({
     },
 
     submitForm(){
-        this.props.rps.play(this.state.p1Throw, this.state.p2Throw, this)
+        this.props.rps.playRound(this.state.p1Throw, this.state.p2Throw, this)
     },
 
     invalid(){
@@ -44,11 +44,11 @@ const RpsApp = React.createClass({
     }
 })
 
-describe("play", function () {
+describe("playRound", function () {
     describe("invalid input", function () {
         beforeEach(function () {
             renderApp({
-                play: function(p1, p2, ui){
+                playRound: function(p1, p2, ui){
                     ui.invalid()
                 }
             })
@@ -64,7 +64,7 @@ describe("play", function () {
     describe("tie", function () {
         beforeEach(function () {
             renderApp({
-                play: function(p1, p2, ui){
+                playRound: function(p1, p2, ui){
                     ui.tie()
                 }
             })
@@ -80,7 +80,7 @@ describe("play", function () {
     describe("p1 wins", function () {
         beforeEach(function () {
             renderApp({
-                play: function(p1, p2, ui){
+                playRound: function(p1, p2, ui){
                     ui.winner("p1")
                 }
             })
@@ -96,7 +96,7 @@ describe("play", function () {
     describe("p2 wins", function () {
         beforeEach(function () {
             renderApp({
-                play: function(p1, p2, ui){
+                playRound: function(p1, p2, ui){
                     ui.winner("p2")
                 }
             })
@@ -109,11 +109,11 @@ describe("play", function () {
         })
     })
 
-    it("sends user input to the play use case", function () {
-        const playSpy = jasmine.createSpy("play")
+    it("sends user input to the playRound use case", function () {
+        const playSpy = jasmine.createSpy("playRound")
 
         renderApp({
-            play: playSpy
+            playRound: playSpy
         })
 
         let p1Throw = "p1 throw value"
@@ -152,7 +152,7 @@ describe("play", function () {
 
     function renderApp(rps) {
         ReactDOM.render(
-            <RpsApp rps={rps}/>,
+            <RpsUI rps={rps}/>,
             domFixture
         )
     }

@@ -1,4 +1,4 @@
-const { RPS } = require("../src/rps")
+const { RockPaperScissors } = require("../src/rockPaperScissors")
 const Round = require("../src/Round")
 const FakeRoundRepo = require("./FakeRoundRepo")
 
@@ -7,7 +7,7 @@ describe("history", function () {
         it("tells the UI no history", function () {
             const ui = jasmine.createSpyObj("ui", ["noHistory"])
 
-            rps.history(ui, roundRepo)
+            rockPaperScissors.history(ui, roundRepo)
 
             expect(ui.noHistory).toHaveBeenCalled()
         })
@@ -17,12 +17,12 @@ describe("history", function () {
         it("sends the rounds to the UI", function () {
             const ui = jasmine.createSpyObj("ui", ["history", "winner", "tie", "invalid"])
 
-            rps.play("rock", "paper", ui, roundRepo)
-            rps.play("paper", "rock", ui, roundRepo)
-            rps.play("paper", "paper", ui, roundRepo)
-            rps.play("rock", "sailboat", ui, roundRepo)
+            rockPaperScissors.playRound("rock", "paper", ui, roundRepo)
+            rockPaperScissors.playRound("paper", "rock", ui, roundRepo)
+            rockPaperScissors.playRound("paper", "paper", ui, roundRepo)
+            rockPaperScissors.playRound("rock", "sailboat", ui, roundRepo)
 
-            rps.history(ui, roundRepo)
+            rockPaperScissors.history(ui, roundRepo)
 
             expect(ui.history).toHaveBeenCalledWith([
                 new Round("rock", "paper", "p2"),
@@ -34,11 +34,11 @@ describe("history", function () {
 
     })
 
-    let rps, roundRepo
+    let rockPaperScissors, roundRepo
 
     beforeEach(function () {
         roundRepo = new FakeRoundRepo()
-        rps = new RPS()
+        rockPaperScissors = new RockPaperScissors()
     })
 })
 

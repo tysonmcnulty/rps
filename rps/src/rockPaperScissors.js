@@ -1,8 +1,8 @@
 const Round = require("./Round")
 
-function RPS(){
-    this.play = function(p1, p2, ui, roundRepo){
-        new PlayUseCase(p1, p2, ui, roundRepo).execute()
+function RockPaperScissors(){
+    this.playRound = function(player1Throw, player2Throw, ui, roundRepo){
+        new PlayUseCase(player1Throw, player2Throw, ui, roundRepo).execute()
     }
 
     this.history = function(ui, roundRepo){
@@ -14,7 +14,7 @@ function RPS(){
     }
 }
 
-function PlayUseCase(p1, p2, ui, roundRepo){
+function PlayUseCase(player1Throw, player2Throw, ui, roundRepo){
     this.execute = function(){
         if (inputInvalid()){
             handleInvalid()
@@ -34,35 +34,35 @@ function PlayUseCase(p1, p2, ui, roundRepo){
     }
 
     function inputInvalid() {
-        return invalid(p1) || invalid(p2)
+        return invalid(player1Throw) || invalid(player2Throw)
     }
 
     function tie() {
-        return p1 === p2
+        return player1Throw === player2Throw
     }
 
     function p1Wins() {
-        return p1 === "paper" && p2 === "rock" ||
-            p1 === "rock" && p2 === "scissors" ||
-            p1 === "scissors" && p2 === "paper"
+        return player1Throw === "paper" && player2Throw === "rock" ||
+            player1Throw === "rock" && player2Throw === "scissors" ||
+            player1Throw === "scissors" && player2Throw === "paper"
     }
 
     function handleInvalid() {
-        roundRepo.save(new Round(p1, p2, "invalid"))
+        roundRepo.save(new Round(player1Throw, player2Throw, "invalid"))
         ui.invalid()
     }
 
     function handleTie() {
-        roundRepo.save(new Round(p1, p2, "tie"))
+        roundRepo.save(new Round(player1Throw, player2Throw, "tie"))
         ui.tie()
     }
 
     function handleWinner(winner) {
-        roundRepo.save(new Round(p1, p2, winner))
+        roundRepo.save(new Round(player1Throw, player2Throw, winner))
         ui.winner(winner)
     }
 }
 
 module.exports = {
-    RPS
+    RockPaperScissors
 }

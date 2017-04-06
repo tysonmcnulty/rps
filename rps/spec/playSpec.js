@@ -1,11 +1,11 @@
-const { RPS } = require("../src/rps")
+const { RockPaperScissors } = require("../src/rockPaperScissors")
 const FakeRoundRepo = require("./FakeRoundRepo")
 
-describe("play", function () {
-    let rps, ui, roundRepo
+describe("playRound", function () {
+    let rockPaperScissors, ui, roundRepo
 
     beforeEach(function () {
-        rps = new RPS()
+        rockPaperScissors = new RockPaperScissors()
         roundRepo = new FakeRoundRepo()
     })
 
@@ -15,37 +15,37 @@ describe("play", function () {
         })
 
         it("rock v. paper", function () {
-            rps.play("rock", "paper", ui, roundRepo)
+            rockPaperScissors.playRound("rock", "paper", ui, roundRepo)
 
             expect(ui.winner).toHaveBeenCalledWith("p2")
         })
 
         it("paper v. rock", function () {
-            rps.play("paper", "rock", ui, roundRepo)
+            rockPaperScissors.playRound("paper", "rock", ui, roundRepo)
 
             expect(ui.winner).toHaveBeenCalledWith("p1")
         })
 
         it("scissors v. rock", function () {
-            rps.play("scissors", "rock", ui, roundRepo)
+            rockPaperScissors.playRound("scissors", "rock", ui, roundRepo)
 
             expect(ui.winner).toHaveBeenCalledWith("p2")
         })
 
         it("rock v. scissors", function () {
-            rps.play("rock", "scissors", ui, roundRepo)
+            rockPaperScissors.playRound("rock", "scissors", ui, roundRepo)
 
             expect(ui.winner).toHaveBeenCalledWith("p1")
         })
 
         it("paper v. scissors", function () {
-            rps.play("paper", "scissors", ui, roundRepo)
+            rockPaperScissors.playRound("paper", "scissors", ui, roundRepo)
 
             expect(ui.winner).toHaveBeenCalledWith("p2")
         })
 
         it("scissors v. paper", function () {
-            rps.play("scissors", "paper", ui, roundRepo)
+            rockPaperScissors.playRound("scissors", "paper", ui, roundRepo)
 
             expect(ui.winner).toHaveBeenCalledWith("p1")
         })
@@ -60,19 +60,19 @@ describe("play", function () {
         })
 
         it("rock v. rock", function () {
-            rps.play("rock", "rock", ui, roundRepo)
+            rockPaperScissors.playRound("rock", "rock", ui, roundRepo)
 
             expect(ui.tie).toHaveBeenCalled()
         })
 
         it("paper v. paper", function () {
-            rps.play("paper", "paper", ui, roundRepo)
+            rockPaperScissors.playRound("paper", "paper", ui, roundRepo)
 
             expect(ui.tie).toHaveBeenCalled()
         })
 
         it("scissors v. scissors", function () {
-            rps.play("scissors", "scissors", ui, roundRepo)
+            rockPaperScissors.playRound("scissors", "scissors", ui, roundRepo)
 
             expect(ui.tie).toHaveBeenCalled()
         })
@@ -84,13 +84,13 @@ describe("play", function () {
         })
 
         it("rock v. sailboat", function () {
-            rps.play("rock", "sailboat", ui, roundRepo)
+            rockPaperScissors.playRound("rock", "sailboat", ui, roundRepo)
 
             expect(ui.invalid).toHaveBeenCalled()
         })
 
         it("sailboat v. sailboat", function () {
-            rps.play("sailboat", "sailboat", ui, roundRepo)
+            rockPaperScissors.playRound("sailboat", "sailboat", ui, roundRepo)
 
             expect(ui.invalid).toHaveBeenCalled()
         })
