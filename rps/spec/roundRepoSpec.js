@@ -1,7 +1,7 @@
 const FakeRoundRepo = require("./FakeRoundRepo")
 const Round = require("../src/Round")
 
-fdescribe("round repo", function () {
+describe("round repo", function () {
     let repo
 
     beforeEach(function () {
