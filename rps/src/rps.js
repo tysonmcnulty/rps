@@ -1,14 +1,20 @@
+const Round = require("./Round")
+
 function RPS(){
-    this.play = function(p1, p2, ui){
-        new PlayUseCase(p1, p2, ui).execute()
+    this.play = function(p1, p2, ui, roundRepo){
+        new PlayUseCase(p1, p2, ui, roundRepo).execute()
     }
 
-    this.history = function(){
-
+    this.history = function(ui, roundRepo){
+        if (roundRepo.isEmpty()){
+            ui.noHistory()
+        } else {
+            ui.history(roundRepo.getAll())
+        }
     }
 }
 
-function PlayUseCase(p1, p2, ui){
+function PlayUseCase(p1, p2, ui, roundRepo){
     this.execute = function(){
         if (inputInvalid()){
             ui.invalid()
@@ -17,6 +23,7 @@ function PlayUseCase(p1, p2, ui){
         } else if (p1Wins()){
             ui.winner("p1")
         } else {
+            roundRepo.save(new Round(p1, p2, "p2"))
             ui.winner("p2")
         }
     }
