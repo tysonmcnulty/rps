@@ -7,10 +7,6 @@ describe("history", function () {
         it("tells the UI no history", function () {
             const ui = jasmine.createSpyObj("ui", ["noHistory"])
 
-            const roundRepo = new FakeRoundRepo()
-
-            const rps = new RPS()
-
             rps.history(ui, roundRepo)
 
             expect(ui.noHistory).toHaveBeenCalled()
@@ -20,10 +16,6 @@ describe("history", function () {
     describe("when rounds have been played", function () {
         it("sends the rounds to the UI", function () {
             const ui = jasmine.createSpyObj("ui", ["history", "winner", "tie", "invalid"])
-
-            const rps = new RPS()
-
-            const roundRepo = new FakeRoundRepo()
 
             rps.play("rock", "paper", ui, roundRepo)
             rps.play("paper", "rock", ui, roundRepo)
@@ -40,6 +32,13 @@ describe("history", function () {
             ])
         })
 
+    })
+
+    let rps, roundRepo
+
+    beforeEach(function () {
+        roundRepo = new FakeRoundRepo()
+        rps = new RPS()
     })
 })
 
