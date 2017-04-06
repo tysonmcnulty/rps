@@ -9,7 +9,7 @@ const RpsApp = React.createClass({
     },
 
     submitForm(){
-        this.props.rps.play("foo", "bar", this)
+        this.props.rps.play(this.state.p1Throw, this.state.p2Throw, this)
     },
 
     invalid(){
@@ -24,10 +24,20 @@ const RpsApp = React.createClass({
         this.setState({message: `${player.toUpperCase()} WINS`})
     },
 
+    p1ThrowChangeHandler(e){
+        this.setState({p1Throw: e.target.value})
+    },
+
+    p2ThrowChangeHandler(e){
+        this.setState({p2Throw: e.target.value})
+    },
+
     render(){
         return (
             <div>
                 {this.state.message}
+                <input type="text" id="p1Throw" onChange={this.p1ThrowChangeHandler}/>
+                <input type="text" id="p2Throw" onChange={this.p2ThrowChangeHandler}/>
                 <button id="playButton" onClick={this.submitForm}>Play</button>
             </div>
         )
@@ -98,6 +108,27 @@ describe("play", function () {
             expect(page()).toContain("P2 WINS")
         })
     })
+
+    it("sends user input to the play use case", function () {
+        const playSpy = jasmine.createSpy("play")
+
+        renderApp({
+            play: playSpy
+        })
+
+        let p1ThrowInput = document.querySelector("#p1Throw");
+        p1ThrowInput.value = "p1 throw value"
+        let p2ThrowInput = document.querySelector("#p2Throw");
+        p2ThrowInput.value = "p2 throw value"
+
+        p1ThrowInput.dispatchEvent(new Event("input", {bubbles: true, cancelable: false}))
+        p2ThrowInput.dispatchEvent(new Event("input", {bubbles: true, cancelable: false}))
+
+        submitPlayForm()
+
+        expect(playSpy).toHaveBeenCalledWith("p1 throw value",  "p2 throw value", jasmine.any(Object))
+    })
+
 
     let domFixture
 
