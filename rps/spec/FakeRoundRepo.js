@@ -1,16 +1,16 @@
 function FakeRoundRepo(){
-    let empty = true
+    let rounds = []
 
-    this.save = function(){
-        empty = false
+    this.save = function(round){
+        rounds.push(round)
     }
 
     this.isEmpty = function(){
-        return empty
+        return rounds.length === 0
     }
 
     this.getAll = function(){
-
+        return rounds
     }
 }
 
