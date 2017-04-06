@@ -1,5 +1,6 @@
 const { RPS } = require("../src/rps")
 const Round = require("../src/Round")
+const FakeRoundRepo = require("./FakeRoundRepo")
 
 describe("history", function () {
     describe("when no rounds have been played", function () {
@@ -14,7 +15,7 @@ describe("history", function () {
         })
     })
 
-    fdescribe("when rounds have been played", function () {
+    describe("when rounds have been played", function () {
         it("sends the rounds to the UI", function () {
             const ui = jasmine.createSpyObj("ui", ["history", "winner"])
 
@@ -34,19 +35,6 @@ describe("history", function () {
     })
 })
 
-function FakeRoundRepo(){
-    this.save = function(){
-
-    }
-
-    this.isEmpty = function(){
-
-    }
-
-    this.getAll = function(){
-
-    }
-}
 
 
 
