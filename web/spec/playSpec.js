@@ -109,12 +109,6 @@ describe("play", function () {
         })
     })
 
-    function input(inputSelector, inputValue) {
-        let domInput = document.querySelector(inputSelector);
-        domInput.value = inputValue
-        domInput.dispatchEvent(new Event("input", {bubbles: true, cancelable: false}))
-    }
-
     it("sends user input to the play use case", function () {
         const playSpy = jasmine.createSpy("play")
 
@@ -133,8 +127,14 @@ describe("play", function () {
         expect(playSpy).toHaveBeenCalledWith(p1Throw,  p2Throw, jasmine.any(Object))
     })
 
-
     let domFixture
+
+
+    function input(inputSelector, inputValue) {
+        let domInput = document.querySelector(inputSelector);
+        domInput.value = inputValue
+        domInput.dispatchEvent(new Event("input", {bubbles: true, cancelable: false}))
+    }
 
     function setupDOM() {
         domFixture = document.createElement("div")

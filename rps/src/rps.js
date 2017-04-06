@@ -2,6 +2,10 @@ function RPS(){
     this.play = function(p1, p2, ui){
         new PlayUseCase(p1, p2, ui).execute()
     }
+
+    this.history = function(){
+
+    }
 }
 
 function PlayUseCase(p1, p2, ui){
